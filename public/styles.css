@@ -859,6 +859,13 @@ section p {
     color: var(--text);
 }
 
+main p a,
+.foot-legal a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+}
+
 /* ---------- status ---------- */
 
 .status {
