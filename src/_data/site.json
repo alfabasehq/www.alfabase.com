@@ -1,0 +1,10 @@
+{
+  "url": "https://www.alfabase.com",
+  "nav": [
+    { "url": "/product/", "label": "Product" },
+    { "url": "/architecture/", "label": "Architecture" },
+    { "url": "/modules/", "label": "Planned modules" },
+    { "url": "/vision/", "label": "Vision" },
+    { "url": "/status/", "label": "Development status" }
+  ]
+}

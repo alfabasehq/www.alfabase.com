@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <link rel="icon" href="/logo-vibrant.svg" type="image/svg+xml">
+{%- if noindex %}
+    <meta name="robots" content="noindex">
+{%- else %}
+    <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+{%- endif %}
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+{%- if not noindex %}
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+{%- endif %}
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&display=swap">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/"{% if page.url == "/" %} aria-current="page"{% endif %}>
+            <img class="logo" src="/logo-vibrant.svg" alt="" width="34" height="39">
+            <span class="wordmark">Alfabase</span>
+        </a>
+        <nav class="nav" aria-label="Main">
+{%- for item in site.nav %}
+            <a href="{{ item.url }}"{% if item.url == page.url %} aria-current="page"{% endif %}>{{ item.label }}</a>
+{%- endfor %}
+        </nav>
+    </header>
+
+{{ content | safe }}
+    <footer class="sitefoot">
+        <div class="sitefoot-in">
+            <p class="foot-brand">Alfabase</p>
+            <p class="foot-line">One ERP engine. Any application.</p>
+            <nav class="foot-nav" aria-label="Footer">
+{%- for item in site.nav %}
+                <a href="{{ item.url }}">{{ item.label }}</a>
+{%- endfor %}
+            </nav>
+            <p class="foot-legal">© 2026 Alfabase</p>
+        </div>
+    </footer>
+
+</body>
+</html>

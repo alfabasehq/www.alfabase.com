@@ -1,0 +1,932 @@
+:root {
+    --bg: #fdfdfc;
+    --bg-soft: #f5f5f3;
+    --text: #1f2328;
+    --text-muted: #59636e;
+    --rule: #e6e6e1;
+    --text-faint: #7d858e;
+    --card: #ffffff;
+    /* A dashed, hollow ring, not a tick. Nothing in the module list is built yet,
+       and a row of green ticks reads as 42 delivered features. The dashed outline
+       matches the diagrams, where dashed means "not built by us, or not yet". */
+    --planned: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Ccircle cx=%278%27 cy=%278%27 r=%275.4%27 fill=%27none%27 stroke=%27%232ec4b6%27 stroke-width=%271.7%27 stroke-dasharray=%272.5 2.1%27/%3E%3C/svg%3E");
+    /* brand, taken from logo-vibrant.svg: the cube's three faces */
+    --brand-mint: #2ec4b6;
+    --brand-pink: #ee4266;
+    --brand-yellow: #ffd23f;
+
+    --measure: 56rem;
+    --prose: 38rem;
+
+
+    --display: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "Cascadia Mono", Menlo, Consolas, monospace;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--display);
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-x: hidden;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-text-size-adjust: 100%;
+}
+
+/* ---------- hero ---------- */
+
+
+h1 {
+    margin: 0;
+    max-width: 26ch;
+    font-size: clamp(2.35rem, 7.4vw, 4.9rem);
+    font-weight: 700;
+    letter-spacing: -0.042em;
+    line-height: 0.99;
+}
+
+h1::after {
+    content: "";
+    display: block;
+    width: 4.5rem;
+    height: 3px;
+    margin: 1.75rem 0 1.5rem;
+    background: var(--brand-mint);
+}
+
+.sub {
+    margin: 0;
+    max-width: 36rem;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+}
+
+/* ---------- sections ---------- */
+
+main {
+    flex: 1;
+    width: 100%;
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+section {
+    padding: 3.4rem 0;
+    border-top: 1px solid var(--rule);
+}
+
+@media (min-width: 52rem) {
+    section:has(> h2) {
+        display: grid;
+        grid-template-columns: 11rem 1fr;
+        column-gap: 3rem;
+    }
+
+    section:has(> h2) > h2 {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    section:has(> h2) > :not(h2) {
+        grid-column: 2;
+    }
+
+    /* the centrepieces of their sections take the rail too: the diagram is the argument,
+       and it reads left to right, so every pixel of width is worth having */
+    section:has(> h2) > .fig--cd,
+    section:has(> h2) > .compare,
+    section:has(> h2) > .after-table {
+        grid-column: 1 / -1;
+    }
+}
+
+h2 {
+    margin: 0 0 0.9rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.022em;
+    line-height: 1.18;
+}
+
+h2 .num {
+    display: block;
+    margin-bottom: 0.55rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--brand-mint);
+}
+
+h3 {
+    margin: 0 0 0.3rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+p {
+    margin: 0 0 1rem;
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+section > p {
+    max-width: var(--prose);
+}
+
+section p {
+    color: var(--text-muted);
+}
+
+/* ---------- module coverage ---------- */
+
+/* the scope caveat that sits above the 42 rows: the list is intent, not delivery */
+.note-scope {
+    max-width: var(--prose);
+    margin: 0 0 0.4rem;
+    padding: 0.8rem 0.95rem;
+    border-left: 2px solid var(--brand-mint);
+    background: var(--bg-soft);
+    font-size: 0.9rem;
+}
+
+.note-scope strong {
+    color: var(--text);
+}
+
+.modules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.modules article {
+    padding: 1.25rem 1.35rem 1.4rem;
+    border: 1px solid var(--rule);
+    border-radius: 0;
+    background: var(--card);
+}
+
+.modules h3 {
+    margin: 0 0 0.9rem;
+    min-height: 2.5em;
+    line-height: 1.25;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+}
+
+.modules ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.modules li {
+    position: relative;
+    padding: 0.2rem 0 0.2rem 1.6rem;
+    font-size: 0.925rem;
+    line-height: 1.5;
+    color: var(--text);
+}
+
+.modules li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.42em;
+    width: 0.95rem;
+    height: 0.95rem;
+    background: var(--planned) no-repeat center / 0.95rem 0.95rem;
+}
+
+/* ---------- argument blocks ---------- */
+
+.points {
+    display: grid;
+    gap: 1.6rem;
+    margin-top: 1.5rem;
+}
+
+@media (min-width: 46rem) {
+    .points {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.8rem 2.25rem;
+    }
+}
+
+.points h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1rem;
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+}
+
+.points p {
+    margin: 0;
+}
+
+
+/* ---------- figures ---------- */
+
+.fig {
+    margin: 2rem 0 0;
+}
+
+.fig figcaption {
+    margin-bottom: 0.9rem;
+    font-size: 0.93rem;
+    font-weight: 600;
+}
+
+.fig-note {
+    margin: 0.9rem 0 0;
+    font-size: 0.85rem;
+    color: var(--text-faint);
+}
+
+/* ---------- the engine diagram ----------
+   Apps across the top, each dropping a line into one shared block. The join grid
+   repeats the apps grid exactly, so every stem lands under the centre of its app. */
+
+/* The stems mirror the apps grid cell for cell, which is what puts each arrow
+   under its own application. Both read --cols, so the two can never disagree:
+   change the column count in one place and the arrows follow. */
+
+.eng-apps,
+.eng-join {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 3), 1fr);
+    gap: 0.7rem;
+}
+
+/* The applications stay dashed, because dashed means "not built by us" across
+   every diagram on the site. What they gain is a fill and a border colour of
+   their own: an untinted card disappears into the page, and six different hues
+   say "independently built by different people" better than the caption does.
+   Mint is deliberately not among them — mint is reserved for Alfabase, so the
+   one block nobody else builds stays the only mint thing in the picture.
+   The tints are rgba, so the same classes work on the dark chapter too. */
+
+.eng-app {
+    padding: 0.85rem 0.9rem;
+    border: 1px dashed var(--app-line, var(--rule));
+    border-radius: 10px;
+    background: var(--app-fill, rgba(125, 133, 142, 0.07));
+}
+
+.app--store  { --app-fill: rgba(255, 210, 63, 0.16);  --app-line: rgba(199, 154, 0, 0.55); }
+.app--sales  { --app-fill: rgba(238, 66, 102, 0.12);  --app-line: rgba(238, 66, 102, 0.5); }
+.app--shop   { --app-fill: rgba(139, 124, 240, 0.13); --app-line: rgba(139, 124, 240, 0.5); }
+.app--portal { --app-fill: rgba(63, 154, 224, 0.13);  --app-line: rgba(63, 154, 224, 0.5); }
+.app--field  { --app-fill: rgba(69, 179, 107, 0.14);  --app-line: rgba(69, 179, 107, 0.5); }
+.app--agent  { --app-fill: rgba(240, 138, 60, 0.14);  --app-line: rgba(240, 138, 60, 0.55); }
+
+/* on the dark chapter the neutral default has nothing to sit against */
+.chapter-dark .eng-app {
+    background: var(--app-fill, rgba(255, 255, 255, 0.05));
+    border-color: var(--app-line, #3c4654);
+}
+
+.eng-app strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.eng-app span {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+}
+
+.eng-join {
+    height: 1.9rem;
+}
+
+.eng-join i {
+    position: relative;
+    display: block;
+}
+
+.eng-join i::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0.3rem;
+    bottom: 0.45rem;
+    border-left: 1px solid var(--text-faint);
+}
+
+.eng-join i::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0.4rem;
+    width: 7px;
+    height: 7px;
+    border-right: 1px solid var(--text-faint);
+    border-bottom: 1px solid var(--text-faint);
+    transform: translateX(-50%) rotate(45deg);
+}
+
+/* Six applications in one row, so every box keeps its own arrow. Once the row
+   is too narrow to read, the apps wrap onto several rows — and a per-app stem
+   from an upper row would have to cross the rows beneath it, so below that
+   width the stems are swapped for the rail below. Both connectors are in the
+   markup and exactly one is ever shown; they are decorative and aria-hidden. */
+
+.eng--six {
+    --cols: 6;
+}
+
+.eng--six .eng-apps,
+.eng--six .eng-join {
+    gap: 0.5rem;
+}
+
+.eng--six .eng-app {
+    padding: 0.65rem 0.6rem;
+}
+
+.eng--six .eng-app strong {
+    font-size: 0.82rem;
+}
+
+.eng--six .eng-app span {
+    font-size: 0.74rem;
+    margin-top: 0.2rem;
+}
+
+.eng--six .eng-bus {
+    display: none;
+}
+
+@media (max-width: 52rem) {
+    .eng--six {
+        --cols: 3;
+    }
+
+    .eng--six .eng-join {
+        display: none;
+    }
+
+    .eng--six .eng-bus {
+        display: block;
+    }
+}
+
+@media (max-width: 34rem) {
+    .eng--six {
+        --cols: 2;
+    }
+}
+
+.eng-bus {
+    position: relative;
+    height: 2.1rem;
+}
+
+.eng-bus::before {
+    content: "";
+    position: absolute;
+    left: 16%;
+    right: 16%;
+    top: 0.55rem;
+    border-top: 1px solid var(--text-faint);
+}
+
+.eng-bus i {
+    position: absolute;
+    left: 50%;
+    top: 0.55rem;
+    bottom: 0.45rem;
+    border-left: 1px solid var(--text-faint);
+}
+
+.eng-bus i::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 7px;
+    height: 7px;
+    border-right: 1px solid var(--text-faint);
+    border-bottom: 1px solid var(--text-faint);
+    transform: translate(-50%, 1px) rotate(45deg);
+}
+
+.eng-core {
+    padding: 1.1rem 1.15rem 1.2rem;
+    border: 1px solid var(--brand-mint);
+    border-radius: 10px;
+    background: rgba(46, 196, 182, 0.1);
+}
+
+.eng-core-name {
+    margin: 0 0 0.8rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--brand-mint);
+}
+
+.eng-core-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.eng-core-items span {
+    padding: 0.3rem 0.6rem;
+    border: 1px solid rgba(46, 196, 182, 0.45);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* the layered variant: three named strata rather than a row of module chips */
+.eng-core-layers {
+    display: grid;
+    gap: 0.4rem;
+}
+
+.eng-core-layers b {
+    display: block;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid rgba(46, 196, 182, 0.45);
+    border-radius: 7px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.eng-core-layers b span {
+    display: block;
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* ---------- the islands diagram ----------
+   Three applications, each with its own store, held together by hand-written
+   integrations. Five columns so the connectors sit between the cards. */
+
+.isl {
+    display: grid;
+    gap: 0.6rem;
+    align-items: start;
+}
+
+@media (min-width: 40rem) {
+    .isl {
+        grid-template-columns: 1fr 6.2rem 1fr 6.2rem 1fr;
+        align-items: center;
+    }
+}
+
+.isl-app {
+    padding: 0.85rem 0.9rem;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    background: var(--card);
+}
+
+.isl-app strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.isl-store {
+    margin-top: 0.55rem;
+    padding: 0.4rem 0.55rem;
+    border: 1px dashed var(--brand-pink);
+    border-radius: 6px;
+    font-size: 0.78rem;
+    line-height: 1.35;
+    color: var(--text-muted);
+}
+
+.isl-link {
+    position: relative;
+    min-height: 2.2rem;
+    padding: 0 0.3rem;
+    font-size: 0.72rem;
+    text-align: center;
+    color: var(--brand-pink);
+}
+
+.isl-link::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 1.5rem;
+    border-top: 1px dashed var(--brand-pink);
+}
+
+/* ---------- the workflow strip ---------- */
+
+.flow {
+    display: grid;
+    gap: 0.7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+}
+
+@media (min-width: 46rem) {
+    .flow {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.flow li {
+    position: relative;
+    padding: 0.9rem 0.95rem 1rem;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    background: var(--card);
+}
+
+.flow li::before {
+    counter-increment: step;
+    content: counter(step);
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--brand-mint);
+}
+
+.flow strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.flow em {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    font-style: normal;
+    line-height: 1.4;
+    color: var(--text-muted);
+}
+
+.flow-strip {
+    margin: 0.7rem 0 0;
+    padding: 0.7rem 0.95rem;
+    border: 1px solid var(--brand-mint);
+    border-radius: 10px;
+    background: rgba(46, 196, 182, 0.1);
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+}
+
+/* ---------- the ecosystem diagram ---------- */
+
+.eco {
+    display: grid;
+    gap: 0.6rem;
+}
+
+.eco-row {
+    display: grid;
+    gap: 0.6rem;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.eco-row span {
+    padding: 0.65rem 0.5rem;
+    border: 1px dashed var(--rule);
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.eco-core {
+    padding: 0.95rem 1rem;
+    border: 1px solid var(--brand-mint);
+    border-radius: 10px;
+    background: rgba(46, 196, 182, 0.1);
+    text-align: center;
+}
+
+.eco-core strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--brand-mint);
+}
+
+.eco-core span {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+/* ---------- top bar and navigation ---------- */
+
+.topbar {
+    width: 100%;
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 1.4rem 1.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9rem 1.6rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo {
+    display: block;
+    width: 34px;
+    height: auto;
+}
+
+.wordmark {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.3rem;
+    margin-left: auto;
+}
+
+.nav a {
+    font-size: 0.86rem;
+    text-decoration: none;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    padding-bottom: 2px;
+}
+
+.nav a:hover {
+    color: var(--text);
+}
+
+.nav a[aria-current="page"] {
+    color: var(--text);
+    font-weight: 600;
+    border-bottom-color: var(--brand-mint);
+}
+
+/* ---------- page headers ---------- */
+
+.hero {
+    width: 100%;
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 2.75rem 1.5rem 4rem;
+}
+
+.eyebrow {
+    margin: 0 0 1.1rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brand-mint);
+}
+
+.hero .lead {
+    margin: 0 0 1.1rem;
+    max-width: 34rem;
+    font-size: 1.35rem;
+    line-height: 1.35;
+    letter-spacing: -0.012em;
+    color: var(--text);
+}
+
+.hero--page {
+    padding-bottom: 2.5rem;
+}
+
+.hero--page h1 {
+    font-size: clamp(1.9rem, 5vw, 3.1rem);
+    max-width: 20ch;
+}
+
+/* ---------- calls to action ---------- */
+
+.ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 0.9rem;
+    margin-top: 1.9rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.7rem 1.2rem;
+    border: 1px solid var(--text);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--bg);
+    background: var(--text);
+}
+
+.btn:hover {
+    opacity: 0.86;
+}
+
+.btn--ghost {
+    color: var(--text);
+    background: none;
+    border-color: var(--rule);
+}
+
+.btn--ghost:hover {
+    border-color: var(--text);
+    opacity: 1;
+}
+
+/* ---------- next steps ---------- */
+
+.next {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 1.5rem;
+}
+
+@media (min-width: 46rem) {
+    .next {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.next a {
+    display: block;
+    padding: 1.05rem 1.2rem;
+    border: 1px solid var(--rule);
+    text-decoration: none;
+    color: inherit;
+    background: var(--card);
+}
+
+.next a:hover {
+    border-color: var(--text-faint);
+}
+
+.next strong {
+    display: block;
+    font-size: 0.98rem;
+    font-weight: 600;
+}
+
+.next span {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.86rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+}
+/* ---------- the dark chapter ---------- */
+
+.chapter-dark {
+    margin-inline: calc(-50vw + 50%);
+    padding: 4.25rem calc(50vw - 50%) 4.5rem;
+    border-top: 0;
+    background: #0e131a;
+
+    --text: #eef1f6;
+    --text-muted: #b4bdc9;
+    --text-faint: #8e99a8;
+    --rule: #28313d;
+    --card: #1a212b;
+    --bg: #0e131a;
+    --bg-soft: #1a212b;
+
+    color: var(--text);
+}
+
+.chapter-dark .closer strong {
+    font-weight: 700;
+    color: var(--brand-yellow);
+}
+
+.closer {
+    margin: 2rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    max-width: var(--prose);
+}
+
+.thesis-section .closer {
+    color: var(--text);
+}
+
+/* ---------- status ---------- */
+
+.status {
+    margin-inline: -1.5rem;
+    padding-inline: 1.5rem;
+    background: var(--bg-soft);
+    border-top: 1px solid var(--rule);
+}
+
+.status .stamp {
+    margin: 0.9rem 0 0;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--text-faint);
+}
+
+/* ---------- footer ---------- */
+
+.sitefoot {
+    margin-top: 3rem;
+    border-top: 1px solid var(--rule);
+    background: var(--bg-soft);
+}
+
+.sitefoot-in {
+    width: 100%;
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 2.25rem;
+}
+
+.sitefoot .foot-brand {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.sitefoot .foot-line {
+    margin: 0.35rem 0 1.4rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.foot-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 1.4rem;
+    padding-bottom: 1.4rem;
+    border-bottom: 1px solid var(--rule);
+}
+
+.foot-nav a {
+    font-size: 0.86rem;
+    text-decoration: none;
+    color: var(--text-muted);
+}
+
+.foot-nav a:hover {
+    color: var(--text);
+}
+
+.sitefoot .foot-legal {
+    margin: 1.3rem 0 0;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--text-faint);
+}
